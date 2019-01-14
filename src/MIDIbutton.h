@@ -32,12 +32,23 @@ class MIDIbutton: public Bounce, public Flicker{
     byte outLo = 0;
     byte outHi = 127;
     byte mode;
+	byte _MIDIOnMessage = 0xB0;  // control change
+	byte _MIDIOffMessage = 0xB0; // control change
+	byte _MIDIOnVelocity = 127;
+	byte _MIDIOffVelocity = 0;
+	byte _MIDIchannel = 10;
+    byte _MIDIcable = 0;
+    byte _MIDIface = 0;
+
     bool inputState; // refers to the actual physical state of the input
     bool state;      // refers to the most recently sent MIDI message
                      // e.g. a button may be latched on without being held down
     void setControlNumber(byte num);
     void setMode(byte mod);
     void outputRange(byte min, byte max);
+	void setChannel(byte channel, byte cable, byte face);
+	void setOnMessage(byte OnMessage, byte num, byte velocity);
+	void setOffMessage(byte OffMessage, byte num, byte velocity);
 };
 
 #endif

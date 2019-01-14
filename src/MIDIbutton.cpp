@@ -1,4 +1,5 @@
 #include "MIDIbutton.h"
+#include "MIDIcontroller.h"
 
 // constructors
 MIDIbutton::MIDIbutton() : Bounce(0, 0), Flicker(0, 0){};
@@ -57,22 +58,29 @@ int MIDIbutton::send(){
   int newValue = read();
   if (newValue == outHi){       // If the button's been pressed,
     if (state == false){        // and if it was latched OFF,
-      usbMIDI.sendControlChange(number,outHi,MIDIchannel); // send CC outHi,
+      // usbMIDI.sendControlChange(number,outHi,MIDIchannel); // send CC outHi,
+	  MIDI_send(_MIDIOnMessage, number, _MIDIOnVelocity, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
       newValue = number;
       state = true;             // Remember the button is now on.
     }
     else{                       // If the button was latched ON,
       if (mode == 2){           // and the button's in TRIGGER mode(2),
-        usbMIDI.sendControlChange(number,outHi,MIDIchannel); // send CC outHi again 
+        // usbMIDI.sendControlChange(number,outHi,MIDIchannel); // send CC outHi again 
+		MIDI_send(_MIDIOnMessage, number, _MIDIOnVelocity, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
         newValue = number;
       }
-      else {usbMIDI.sendControlChange(number,outLo,MIDIchannel);}// else send outLo,
+      else {
+		  // else send outLo
+		  //usbMIDI.sendControlChange(number,outLo,MIDIchannel);
+		  MIDI_send(_MIDIOffMessage, number, _MIDIOffVelocity, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
+	  }
       state = false;            // Remember the button is now off.
       newValue = outLo;
     }
   }
   else if (newValue == outLo && mode == 0){// Button in MOMENTARY mode released?
-    usbMIDI.sendControlChange(number,outLo,MIDIchannel); // send CC outLo,
+    //usbMIDI.sendControlChange(number,outLo,MIDIchannel); // send CC outLo,
+     MIDI_send(_MIDIOffMessage, number, _MIDIOffVelocity, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
     state = false;                         // Remember the button is now off
   }
   else {newValue = -1;}
@@ -98,3 +106,24 @@ void MIDIbutton::setMode(byte mod){
   mode = mod;
 };
 
+// Set the button channel, cable, interface
+void MIDIbutton::setChannel(byte channel, byte cable, byte face){
+  MIDIbutton::_MIDIchannel = channel;
+  MIDIbutton::_MIDIcable   = cable;
+  MIDIbutton::_MIDIface    = face;
+};
+
+// Set the OnMessage
+void MIDIbutton::setOnMessage(byte OnMessage, byte num, byte velocity){
+	MIDIbutton::_MIDIOnMessage = OnMessage;  // default is control change
+	MIDIbutton::number = num;
+	MIDIbutton::_MIDIOnVelocity = velocity;
+
+}
+
+// Set the OffMessage
+void MIDIbutton::setOffMessage(byte OffMessage, byte num, byte velocity){
+	MIDIbutton::_MIDIOffMessage = OffMessage;  // default is control change
+	MIDIbutton::number = num;
+    MIDIbutton::_MIDIOffVelocity = velocity;
+}
