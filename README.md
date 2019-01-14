@@ -3,18 +3,24 @@
 A library for creating Teensy MIDI controllers
 
 ## FEATURES INCLUDE
+  - Support for usbMIDI, usbMIDIx4, usbMIDIx16 (16 Cable Support)
+  - Support for Serial MIDI (1 Cable on Serial1 by default)
+  - Support for usbHOST MIDI on Teensy3.6 with an external USB Hub
+  - per-instance selection of MIDI message, channel, cable and interface
   - Velocity sensitive FSR or Piezo inputs
   - momentary, latch or 'trigger' buttons
   - Stable analog to MIDI conversion for potentiometers and other sensors
   - Support for encoders and capacitive touch sensors
-  - Min/Max output can be set (or inverted) for all MIDI. Min/Max input
-      can also be set for analog input (maintaining stability in conversion)
+  - Min/Max output can be set (or inverted). 
+    Min/Max input can also be set for analog input 
+    (maintaining stability in conversion)
 
-## IN THE WORKS
+## UPDATE/NEW FEATURES/TODO
+  - rewrite to use hardware interrupts and timers (not polled)
   - replace KILL with a second user-selectable CC number
   - add an option to allow encoders to change 1 MIDI value per detent
-  - MIDIdrum timer and waitTime should probably be fine tuned
-  - figure out how to get velocity from Capacitive Touch (wish me luck on that)
+  - MIDIdrum timer and waitTime  to use hardware interrupts and timers 
+  - get velocity from Capacitive Touch by measuring the rate of change
 
 ## VERSION LOG
 -  3.0.0 : Add usbMIDI cable support for MIDI, MIDIx4, and MIDIx16 USB types
