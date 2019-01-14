@@ -17,6 +17,12 @@ A library for creating Teensy MIDI controllers
   - figure out how to get velocity from Capacitive Touch (wish me luck on that)
 
 ## VERSION LOG
+-  3.0.0 : Add usbMIDI cable support for MIDI, MIDIx4, and MIDIx16 USB types
+-        : Add Serial MIDI support on Serial1 as default
+-	 : Add per-instance selection of MIDI channel, cable, and interface
+-	 : Add usbMIDI.read(); in MIDI_loop to fix the eventual MIDI crash due to 
+-	 : http://forum.pjrc.com/threads/24179-Teensy-3-Ableton-Analog-CC-causes-midi-crash
+-
 -  2.2.5 : Bugfixed jitter that occurred when using inputRange() with input maxed
 -        : Arguments for specific velocities can now be passed to velocity inputs
 -        : Added literals to highlight MOMENTARY, LATCH, TRIGGER and KILL modes
@@ -31,12 +37,11 @@ A library for creating Teensy MIDI controllers
 -  2.1.5 : got rid of useless '*MC' pointer. renamed 'kill' to 'mode'
 -  2.1.3 : included an example of how to implement aftertouch
 -  2.1.2 : many variables changed to 'byte' or 'uint16_t' for easy storage
--          public and private variables are better sorted
+-        : public and private variables are better sorted
 -  2.1.0 : Split read() and send() functions. MIDI channel is now user selectable
 -  2.0.6 : Fixed a bug preventing poly CC to return to zero after note off.
 -  2.0.5 : Added a condition to prevent many double note triggers.
 -  2.0.4 : Added support for capacitive sensors (and started this version log)
-  
 
   
 ## REQUIREMENTS
