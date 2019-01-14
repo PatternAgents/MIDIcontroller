@@ -90,20 +90,20 @@ int MIDIbutton::send(){
 
 // Set the CC number.
 void MIDIbutton::setControlNumber(byte num){
-  MIDIbutton::number = num;
+  number = num;
 };
 
 
 // Set specific min and max values.
 void MIDIbutton::outputRange(byte min, byte max){
-  MIDIbutton::outLo = min;
-  MIDIbutton::outHi = max;
+	outLo = min;
+	outHi = max;
 };
 
 
 // Set the button mode.
 void MIDIbutton::setMode(byte mod){
-  MIDIbutton::mode = mod;
+  mode = mod;
 };
 
 // Set the button channel, cable, interface
@@ -115,15 +115,15 @@ void MIDIbutton::setChannel(byte channel, byte cable, byte face){
 
 // Set the OnMessage
 void MIDIbutton::setOnMessage(byte OnMessage, byte num, byte velocity){
-  MIDIbutton::_MIDIOnMessage = OnMessage;  // default is control change
-  MIDIbutton::number = num;
-  MIDIbutton::_MIDIOnVelocity = velocity;
+	MIDIbutton::_MIDIOnMessage = OnMessage;  // default is control change
+	MIDIbutton::number = num;
+	MIDIbutton::_MIDIOnVelocity = velocity;
 
 }
 
 // Set the OffMessage
 void MIDIbutton::setOffMessage(byte OffMessage, byte num, byte velocity){
-  MIDIbutton::_MIDIOffMessage = OffMessage;  // default is control change
-  MIDIbutton::number = num;
-  MIDIbutton::_MIDIOffVelocity = velocity;
+	MIDIbutton::_MIDIOffMessage = OffMessage;  // default is control change
+	MIDIbutton::number = num;
+    MIDIbutton::_MIDIOffVelocity = velocity;
 }
