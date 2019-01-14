@@ -1,8 +1,8 @@
-## MIDIcontroller
+# MIDIcontroller
 
 A library for creating Teensy MIDI controllers
 
-# FEATURES INCLUDE
+## FEATURES INCLUDE
   - Velocity sensitive FSR or Piezo inputs
   - momentary, latch or 'trigger' buttons
   - Stable analog to MIDI conversion for potentiometers and other sensors
@@ -10,13 +10,13 @@ A library for creating Teensy MIDI controllers
   - Min/Max output can be set (or inverted) for all MIDI. Min/Max input
       can also be set for analog input (maintaining stability in conversion)
 
-# IN THE WORKS
+## IN THE WORKS
   - replace KILL with a second user-selectable CC number
   - add an option to allow encoders to change 1 MIDI value per detent
   - MIDIdrum timer and waitTime should probably be fine tuned
   - figure out how to get velocity from Capacitive Touch (wish me luck on that)
 
-# VERSION LOG
+## VERSION LOG
 -  2.2.5 : Bugfixed jitter that occurred when using inputRange() with input maxed
 -        : Arguments for specific velocities can now be passed to velocity inputs
 -        : Added literals to highlight MOMENTARY, LATCH, TRIGGER and KILL modes
@@ -39,7 +39,7 @@ A library for creating Teensy MIDI controllers
   
 
   
-# REQUIREMENTS
+## REQUIREMENTS
 
 MIDIcontroller requires the following libraries to be installed :
 
