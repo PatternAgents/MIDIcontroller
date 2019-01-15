@@ -5,7 +5,6 @@ A library for creating Teensy MIDI controllers
 ## FEATURES INCLUDE
   - Support for usbMIDI, usbMIDIx4, usbMIDIx16 (16 Cable Support)
   - Support for Serial MIDI (1 Cable on Serial1 by default)
-  - Support for usbHOST MIDI on Teensy3.6 with an external USB Hub
   - per-instance selection of MIDI message, channel, cable and interface
   - Velocity sensitive FSR or Piezo inputs
   - momentary, latch or 'trigger' buttons
@@ -17,6 +16,7 @@ A library for creating Teensy MIDI controllers
 
 ## UPDATE/NEW FEATURES/TODO
   - rewrite to use hardware interrupts and timers (not polled)
+  - Support for usbHOST MIDI on Teensy3.6 with an external USB Hub
   - replace KILL with a second user-selectable CC number
   - add an option to allow encoders to change 1 MIDI value per detent
   - MIDIdrum timer and waitTime  to use hardware interrupts and timers 

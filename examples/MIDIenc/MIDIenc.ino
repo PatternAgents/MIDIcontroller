@@ -1,7 +1,5 @@
 #include "MIDIcontroller.h"
 
-byte MIDIchannel = 5;
-
 const int encPinA = 20;   // Change these numbers to
 const int encPinB = 21;   // the two pins your encoder is on.
 const int buttonPin = 19; // Many encoders feature a push switch.
@@ -13,9 +11,11 @@ MIDIbutton myButton(buttonPin, 25, LATCH); // CC #25 in latch mode
 
 void setup(){
   pinMode(ledPin, OUTPUT);
+  MIDI_setup();
 }
 
 void loop(){
+  MIDI_loop();
   myEnc.send();
   myButton.send();
   digitalWrite(ledPin, myButton.state);

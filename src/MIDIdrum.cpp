@@ -1,4 +1,5 @@
 #include "MIDIdrum.h"
+#include "MIDIcontroller.h"
 
 // constructors
 MIDIdrum::MIDIdrum(){};
@@ -48,7 +49,8 @@ int MIDIdrum::read(){
     }
     else if (timer > waitTime) {
       state = 0; // go back to idle after a certain interval below threshold
-      usbMIDI.sendNoteOn(number, 0, MIDIchannel);
+      //usbMIDI.sendNoteOn(number, 0, MIDIchannel);
+	  MIDI_send(_MIDIOnMessage, number, _MIDIOffVelocity, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
     }
     newValue = -1;
   }
@@ -58,7 +60,8 @@ int MIDIdrum::read(){
 int MIDIdrum::send(){
   int newValue = read();
   if (newValue >= 0){
-    usbMIDI.sendNoteOn(number, newValue, MIDIchannel);
+    //usbMIDI.sendNoteOn(number, newValue, MIDIchannel);
+	MIDI_send(_MIDIOnMessage, number, newValue, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
   }
   return newValue;
 };
@@ -67,7 +70,8 @@ int MIDIdrum::send(int vel){
   int newValue = read();
   if (newValue >= 0){
     constrain(vel, 1, 127);
-    usbMIDI.sendNoteOn(number, vel, MIDIchannel);
+    //usbMIDI.sendNoteOn(number, vel, MIDIchannel);
+    MIDI_send(_MIDIOnMessage, number, vel, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
   }
   return newValue;
 };
@@ -85,3 +89,24 @@ void MIDIdrum::setThreshold(int thresh){
   threshold = thresh;
 };
 
+// Set the button channel, cable, interface
+void  MIDIdrum::setChannel(byte channel, byte cable, byte face){
+   MIDIdrum::_MIDIchannel = channel;
+   MIDIdrum::_MIDIcable   = cable;
+   MIDIdrum::_MIDIface    = face;
+};
+
+// Set the OnMessage
+void  MIDIdrum::setOnMessage(byte OnMessage, byte num, byte velocity){
+   MIDIdrum::_MIDIOnMessage = OnMessage;  // default is control change
+   MIDIdrum::number = num;
+   MIDIdrum::_MIDIOnVelocity = velocity;
+
+}
+
+// Set the OffMessage
+void  MIDIdrum::setOffMessage(byte OffMessage, byte num, byte velocity){
+   MIDIdrum::_MIDIOffMessage = OffMessage;  // default is control change
+   MIDIdrum::number = num;
+   MIDIdrum::_MIDIOffVelocity = velocity;
+}

@@ -1,4 +1,5 @@
 #include "MIDIcapSens.h"
+#include "MIDIcontroller.h"
 
 // constructors
 MIDIcapSens::MIDIcapSens(){};
@@ -86,7 +87,8 @@ int MIDIcapSens::read(){
 int MIDIcapSens::send(){
   int newValue = read();
   if (newValue >= 0){
-    usbMIDI.sendNoteOn(number, outHi, MIDIchannel);
+    //usbMIDI.sendNoteOn(number, outHi, MIDIchannel);
+	MIDI_send(_MIDIOnMessage, number, _MIDIOnVelocity, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
     value = newValue;
   }
   return newValue;
@@ -111,3 +113,25 @@ void MIDIcapSens::outputRange(byte min, byte max){
   outLo = min;
   outHi = max;
 };
+
+// Set the button channel, cable, interface
+void MIDIcapSens::setChannel(byte channel, byte cable, byte face){
+  MIDIcapSens::_MIDIchannel = channel;
+  MIDIcapSens::_MIDIcable   = cable;
+  MIDIcapSens::_MIDIface    = face;
+};
+
+// Set the OnMessage
+void MIDIcapSens::setOnMessage(byte OnMessage, byte num, byte velocity){
+  MIDIcapSens::_MIDIOnMessage = OnMessage;  // default is control change
+  MIDIcapSens::number = num;
+  MIDIcapSens::_MIDIOnVelocity = velocity;
+
+}
+
+// Set the OffMessage
+void MIDIcapSens::setOffMessage(byte OffMessage, byte num, byte velocity){
+  MIDIcapSens::_MIDIOffMessage = OffMessage;  // default is control change
+  MIDIcapSens::number = num;
+  MIDIcapSens::_MIDIOffVelocity = velocity;
+}

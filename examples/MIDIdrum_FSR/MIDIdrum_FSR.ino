@@ -11,18 +11,19 @@
               10k
 */
 
-byte MIDIchannel = 5;
 const int pressPin = 23; // Change this to the correct ANALOG pin
 
 // Note Parameters are: pin, note number
 MIDIdrum myPad(pressPin, 37);
 
 void setup(){
+  MIDI_setup();
   // Set the threshold where you want notes to trigger.
   myPad.setThreshold(30);
 }
 
 void loop(){
+  MIDI_loop();
   myPad.send();
 }
 

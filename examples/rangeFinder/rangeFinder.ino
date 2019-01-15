@@ -1,4 +1,6 @@
 #include "Bounce.h"
+#include "MIDIcontroller.h"
+
 int analogPin = 20; // Change to the ANALOG pin you want to use.
 int touchPin = 22;  // Change to the TOUCH pin you want to use.
 Bounce reset = Bounce(12, 50); // You can assign a button to reset the values.
@@ -19,11 +21,13 @@ void setReset(){
 }
 
 void setup(){
+  MIDI_setup();
   pinMode(12, INPUT_PULLUP);
   setReset();
 }
 
 void loop(){
+  MIDI_loop();
   reset.update();
   if(reset.risingEdge()){
     setReset();

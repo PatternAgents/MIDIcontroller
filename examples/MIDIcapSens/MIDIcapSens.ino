@@ -5,18 +5,19 @@
 // to a 'touch' pin will work. A layer of something non-
 // conductive between the metal and skin gives smoother response.
 
-byte MIDIchannel = 5;
 const int capPin = 0; // Change this to the correct TOUCH pin
 
 // capSens Parameters are: pin, note number, 'afterRelease' velocity, and note velocity
 MIDIcapSens myCap(capPin, 60, 20, 100);
 
 void setup(){
+  MIDI_setup();
   // Thresholds for note OFF, afterRelease, and note ON
   myCap.setThresholds(1080, 1300, 2200);
 }
 
 void loop(){
+  MIDI_loop();
   myCap.send();
 }
 

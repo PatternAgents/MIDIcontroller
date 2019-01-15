@@ -11,18 +11,20 @@
     to the same analog pin on the microcontroller.
 */
 
-byte MIDIchannel = 5;
-const int drumPin = 23; // Change this to the correct ANALOG pin
+const int drumPin = A14; // Change this to the correct ANALOG pin
 
 // Drum Parameters are: pin, note number
 MIDIdrum myDrum(drumPin, 38);
 
 void setup(){
+  MIDI_setup();
 }
 
 void loop(){
+  MIDI_loop();
   myDrum.send();
-  //myDrum.send(64); could be used for a fixed velocity e.g. 64
+  delay(1000);
+  myDrum.send(64); // could be used for a fixed velocity e.g. 64
 }
 
 /* MIDI# - NOTE - SOUND

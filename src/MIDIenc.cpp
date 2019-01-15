@@ -3,6 +3,7 @@
 */
 
 #include "MIDIenc.h"
+#include "MIDIcontroller.h"
 
 // constructors
 MIDIenc::MIDIenc(){};
@@ -46,7 +47,8 @@ int MIDIenc::read(){
 int MIDIenc::send(){
   int newValue = read();
   if (newValue >= 0){
-    usbMIDI.sendControlChange(number, newValue, MIDIchannel);
+    //usbMIDI.sendControlChange(number, newValue, MIDIchannel);
+	MIDI_send(_MIDIOnMessage, number, newValue, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
     value = newValue;
   }
   return newValue;
@@ -62,3 +64,25 @@ void MIDIenc::outputRange(byte min, byte max){
   outLo = min;
   outHi = max;
 };
+
+// Set the button channel, cable, interface
+void MIDIenc::setChannel(byte channel, byte cable, byte face){
+   MIDIenc::_MIDIchannel = channel;
+   MIDIenc::_MIDIcable   = cable;
+   MIDIenc::_MIDIface    = face;
+};
+
+// Set the OnMessage
+void MIDIenc::setOnMessage(byte OnMessage, byte num, byte velocity){
+  MIDIenc::_MIDIOnMessage = OnMessage;  // default is control change
+  MIDIenc::number = num;
+  MIDIenc::_MIDIOnVelocity = velocity;
+
+}
+
+// Set the OffMessage
+void MIDIenc::setOffMessage(byte OffMessage, byte num, byte velocity){
+  MIDIenc::_MIDIOffMessage = OffMessage;  // default is control change
+  MIDIenc::number = num;
+  MIDIenc::_MIDIOffVelocity = velocity;
+}
