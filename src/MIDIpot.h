@@ -4,8 +4,6 @@
 #include "Arduino.h"
 #define KILL 1
 
-extern byte MIDIchannel;
-
 class MIDIpot{
     int divider; // for converting from analog to MIDI resolution
     
@@ -28,18 +26,31 @@ class MIDIpot{
     // destructor
    	~MIDIpot();
 
-    int pin;
-    bool invert;
     int read(); // read input and return a MIDI value (or -1 if none)
     int send(); // calls read(), sends and returns a MIDI value (or -1 if none)
-    byte number;
-    uint16_t inLo, inHi;
-    byte outLo, outHi;
-    bool mode;  // in case you need to kill an effect entirely
-    byte value;
     void setControlNumber(byte num);
     void inputRange(uint16_t min, uint16_t max);
     void outputRange(byte min, byte max);
+	void setChannel(byte channel, byte cable, byte face);
+	void setOnMessage(byte OnMessage, byte num, byte velocity);
+	void setOffMessage(byte OffMessage, byte num, byte velocity);
+
+  private:
+    int pin;
+    bool invert;
+    byte value;
+	byte number;
+    uint16_t inLo, inHi;
+    byte outLo = 0;
+    byte outHi = 127;
+    bool mode;  // in case you need to kill an effect entirely
+	byte _MIDIOnMessage = 0xB0;  // control change
+	byte _MIDIOffMessage = 0xB0; // control change
+	byte _MIDIOnVelocity = 127;
+	byte _MIDIOffVelocity = 0;
+	byte _MIDIchannel = 10;
+    byte _MIDIcable = 0;
+    byte _MIDIface = 0;
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "MIDIpot.h"
+#include "MIDIcontroller.h"
 
 // constructors
 MIDIpot::MIDIpot(){};
@@ -100,12 +101,15 @@ int MIDIpot::read(){
 int MIDIpot::send(){
   int newValue = read();
   if (mode == true && newValue > outLo && value == outLo){  //ON before main msg
-    usbMIDI.sendControlChange(number+1, 127, MIDIchannel);
+    //usbMIDI.sendControlChange(number+1, 127, _MIDIchannel);
+	MIDI_send(_MIDIOnMessage, number+1, _MIDIOnVelocity, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
   }
   if (newValue >= 0){
-    usbMIDI.sendControlChange(number, newValue, MIDIchannel);//MAIN MESSAGE
+    //usbMIDI.sendControlChange(number, newValue, _MIDIchannel);//MAIN MESSAGE
+	MIDI_send(_MIDIOnMessage, number, newValue, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
     if (mode == true && newValue == outLo && value >= outLo){//OFF after main
-      usbMIDI.sendControlChange(number+1, 0, MIDIchannel);
+      //usbMIDI.sendControlChange(number+1, 0, _MIDIchannel);
+	  MIDI_send(_MIDIOnMessage, number+1, _MIDIOffVelocity, _MIDIchannel, NULL, _MIDIcable, _MIDIface);
     }
     value = newValue;
   }
@@ -138,3 +142,24 @@ void MIDIpot::outputRange(byte min, byte max){
   invert = outHi < outLo; // Check again for reverse polarity.
 };
 
+// Set the button channel, cable, interface
+void MIDIpot::setChannel(byte channel, byte cable, byte face){
+  MIDIpot::_MIDIchannel = channel;
+  MIDIpot::_MIDIcable   = cable;
+  MIDIpot::_MIDIface    = face;
+};
+
+// Set the OnMessage
+void MIDIpot::setOnMessage(byte OnMessage, byte num, byte velocity){
+  MIDIpot::_MIDIOnMessage = OnMessage;  // default is control change
+  MIDIpot::number = num;
+  MIDIpot::_MIDIOnVelocity = velocity;
+
+}
+
+// Set the OffMessage
+void MIDIpot::setOffMessage(byte OffMessage, byte num, byte velocity){
+  MIDIpot::_MIDIOffMessage = OffMessage;  // default is control change
+  MIDIpot::number = num;
+  MIDIpot::_MIDIOffVelocity = velocity;
+}

@@ -9,7 +9,7 @@
 #define LATCH 1
 #define TRIGGER 2
 
-extern byte MIDIchannel;
+//extern byte MIDIchannel;
 
 class MIDIbutton: public Bounce, public Flicker{
     bool inputType;
