@@ -2,7 +2,7 @@
 
 A library for creating Teensy MIDI controllers
 
-## FEATURES INCLUDE
+## LATEST FEATURES INCLUDE
   - Support for usbMIDI, usbMIDIx4, usbMIDIx16 (16 Cable Support)
   - Support for Serial MIDI (1 Cable on Serial1 by default)
   - per-instance selection of MIDI message, channel, cable and interface
@@ -14,9 +14,10 @@ A library for creating Teensy MIDI controllers
     Min/Max input can also be set for analog input 
     (maintaining stability in conversion)
 
-## UPDATE/NEW FEATURES/TODO
+## TODO/UPDATE/NEW FEATURES PLANNED
   - rewrite to use hardware interrupts and timers (not polled)
   - Support for usbHOST MIDI on Teensy3.6 with an external USB Hub
+  - add support for serial debug messages as an interface
   - replace KILL with a second user-selectable CC number
   - add an option to allow encoders to change 1 MIDI value per detent
   - MIDIdrum timer and waitTime  to use hardware interrupts and timers 
@@ -28,6 +29,9 @@ A library for creating Teensy MIDI controllers
 -	 : Add per-instance selection of MIDI channel, cable, and interface
 -	 : Add usbMIDI.read(); in MIDI_loop to fix the eventual MIDI crash due to 
 -	 : http://forum.pjrc.com/threads/24179-Teensy-3-Ableton-Analog-CC-causes-midi-crash
+-        : global "MIDIchannel" is obsolete and no longer used
+-        : defaults are now CC Message, Channel 10, Cable 0 , USB device Interface
+-        : use the .SetChannel() and .setOnMessage/.setOffMessage API's to change the defaults
 -
 -  2.2.5 : Bugfixed jitter that occurred when using inputRange() with input maxed
 -        : Arguments for specific velocities can now be passed to velocity inputs
