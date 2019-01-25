@@ -7,6 +7,11 @@
 #include "MIDIcapSens.h"
 #include "MIDIdrum.h"
 #include "MIDI.h"
+#include "usb_desc.h"
+#include "usb_dev.h"
+#include "usb_midi.h"
+#include "core_pins.h"
+#include "HardwareSerial.h"
 
 extern void MIDI_setup(void);
 extern void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *sysexarray, byte cable, byte interface);

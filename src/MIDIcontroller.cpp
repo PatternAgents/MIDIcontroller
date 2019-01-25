@@ -1,7 +1,7 @@
 #include "MIDIcontroller.h"
 
 
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial4, MIDI1);
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI1);
 
 void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *sysexarray, byte cable, uint8_t interface) {
 
@@ -9,6 +9,8 @@ void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *s
   switch (interface)
   {
   case 0 :
+	// TODO: is there a way to find out how many "Cables" are available?
+    if (cable >= MIDI_NUM_CABLES) return;
 	// usbMIDI usbMIDIx4 usbMIDIx16
   	if (type != midi::SystemExclusive) {
 		usbMIDI.send(type, data1, data2, channel, cable);
@@ -29,8 +31,10 @@ void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *s
 	}
 	  break;
   case 2 :
-      // USBhost MIDI
+      // USBhost MIDI Placeholder
+      // TODO : add check for Teensy 3.6 model and enable USBHost
   	if (type != midi::SystemExclusive) {
+		
 		//hostMIDI.send(type, data1, data2, channel, cable);
 	} else {
 	 unsigned int SysExLength = data1 + data2 * 256;
