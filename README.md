@@ -24,6 +24,8 @@ A library for creating Teensy MIDI controllers
   - get velocity from Capacitive Touch by measuring the rate of change
 
 ## VERSION LOG
+-  3.0.1 : Add Serial Debug support as Interface #3
+-        : Fix Serial MIDI1.begin() omitted bug
 -  3.0.0 : Add usbMIDI cable support for MIDI, MIDIx4, and MIDIx16 USB types
 -        : Add Serial MIDI support on Serial1 as default
 -	 : Add per-instance selection of MIDI channel, cable, and interface
