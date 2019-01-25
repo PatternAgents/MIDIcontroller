@@ -1,7 +1,7 @@
 #include "MIDIcontroller.h"
 
 
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI1);
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial4, MIDI1);
 
 void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *sysexarray, byte cable, uint8_t interface) {
 
@@ -52,4 +52,6 @@ void MIDI_loop(void){
 }
 
 void MIDI_setup(void){
+	MIDI1.begin(MIDI_CHANNEL_OMNI);
+	MIDI1.turnThruOff();				/* this was causing HAVOC/crash on Loopback (LOL) */
 }
