@@ -41,6 +41,21 @@ void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *s
 		//hostMIDI.sendSysEx(SysExLength, sysexarray, true, cable);
 	}
       break;
+  case 3 : 
+	  // Host USB Virtual Serial Port (Debug)
+        Serial.print("MIDI Message type=");
+		Serial.print(type, HEX);
+		Serial.print(", Data1=");
+		Serial.print(data1, HEX);
+		Serial.print(", Data2=");
+		Serial.print(data2, HEX);
+		Serial.print(", Channel=");
+		Serial.print(channel, HEX);
+		Serial.print(", Cable=");
+		Serial.print(cable, HEX);
+		Serial.print(", I/F=");
+		Serial.println(interface, HEX);
+	  break;
   default :
 	  break;
   
@@ -56,6 +71,7 @@ void MIDI_loop(void){
 }
 
 void MIDI_setup(void){
+	Serial.begin(115200);
 	MIDI1.begin(MIDI_CHANNEL_OMNI);
 	MIDI1.turnThruOff();				/* this was causing HAVOC/crash on Loopback (LOL) */
 }
