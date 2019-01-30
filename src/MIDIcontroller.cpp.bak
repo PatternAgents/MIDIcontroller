@@ -18,7 +18,6 @@ void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *s
 	 unsigned int SysExLength = data1 + data2 * 256;
 		usbMIDI.sendSysEx(SysExLength, sysexarray, true, cable);
 	}
-	break;
   case 1 :
 	// serial MIDI
   	if (type != midi::SystemExclusive) {
@@ -30,7 +29,7 @@ void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *s
 	 unsigned int SysExLength = data1 + data2 * 256;
 		MIDI1.sendSysEx(SysExLength, sysexarray, true);
 	}
-	break;
+	  break;
   case 2 :
       // USBhost MIDI Placeholder
       // TODO : add check for Teensy 3.6 model and enable USBHost
