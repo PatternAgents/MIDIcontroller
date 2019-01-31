@@ -1,17 +1,17 @@
 #include "MIDIcontroller.h"
 
-
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI1);
+#if !defined(MIDISERIALNONE)
+  MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI1);
+#endif
 
 void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *sysexarray, byte cable, uint8_t interface) {
 
   // process outgoing messages
   switch (interface)
   {
-  case 0 :
-	// TODO: is there a way to find out how many "Cables" are available?
+  case MIDI_PC_USB :
+	// assume usbMIDI is available...
     if (cable >= MIDI_NUM_CABLES) return;
-	// usbMIDI usbMIDIx4 usbMIDIx16
   	if (type != midi::SystemExclusive) {
 		usbMIDI.send(type, data1, data2, channel, cable);
 	} else {
@@ -19,7 +19,8 @@ void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *s
 		usbMIDI.sendSysEx(SysExLength, sysexarray, true, cable);
 	}
 	break;
-  case 1 :
+  case MIDI_SERIAL :
+	#if !defined(MIDISERIALNONE)
 	// serial MIDI
   	if (type != midi::SystemExclusive) {
 	    // Normal messages, first we must convert usbMIDI's type (an ordinary
@@ -30,19 +31,21 @@ void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *s
 	 unsigned int SysExLength = data1 + data2 * 256;
 		MIDI1.sendSysEx(SysExLength, sysexarray, true);
 	}
+    #endif
 	break;
-  case 2 :
-      // USBhost MIDI Placeholder
-      // TODO : add check for Teensy 3.6 model and enable USBHost
+  case MIDI_HOST :
+	#ifdef PROCESSOR_TEENSY_3_6
+    // USBhost MIDI 
   	if (type != midi::SystemExclusive) {
-		
 		//hostMIDI.send(type, data1, data2, channel, cable);
 	} else {
 	 unsigned int SysExLength = data1 + data2 * 256;
 		//hostMIDI.sendSysEx(SysExLength, sysexarray, true, cable);
 	}
-      break;
-  case 3 : 
+	#endif
+    break;
+  case MIDI_DEBUG : 
+	  // assume Serial is available...
 	  // Host USB Virtual Serial Port (Debug)
         Serial.print("MIDI Message type=");
 		Serial.print(type, HEX);
@@ -59,7 +62,6 @@ void MIDI_send(byte type, byte data1, byte data2, byte channel, const uint8_t *s
 	  break;
   default :
 	  break;
-  
   }
 }
 
@@ -67,12 +69,19 @@ void MIDI_loop(void){
 	// MIDI Controllers should discard incoming MIDI messages.
     // http://forum.pjrc.com/threads/24179-Teensy-3-Ableton-Analog-CC-causes-midi-crash
     while (usbMIDI.read()) { }   
-    while (MIDI1.read()) { }
-	// Note : if you wanted to do any forwarding of incoming MIDI messages, add that here...
+	#if !defined(MIDISERIALNONE)
+      while (MIDI1.read()) { 
+		// Note : if you wanted to do any forwarding of incoming MIDI messages, add that here...
+	  }
+	#endif
+	
 }
 
 void MIDI_setup(void){
+    
 	Serial.begin(115200);
-	MIDI1.begin(MIDI_CHANNEL_OMNI);
-	MIDI1.turnThruOff();				/* this was causing HAVOC/crash on Loopback (LOL) */
+	#if !defined(MIDISERIALNONE)
+	  MIDI1.begin(MIDI_CHANNEL_OMNI);
+	  MIDI1.turnThruOff();				/* this was causing HAVOC/crash on Loopback (LOL) */
+    #endif
 }
