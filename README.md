@@ -15,9 +15,7 @@ A library for creating Teensy MIDI controllers
     (maintaining stability in conversion)
 
 ## TODO/UPDATE/NEW FEATURES PLANNED
-  - rewrite to use hardware interrupts and timers (not polled)
   - Support for usbHOST MIDI on Teensy3.6 with an external USB Hub
-  - add support for serial debug messages as an interface
   - replace KILL with a second user-selectable CC number
   - add an option to allow encoders to change 1 MIDI value per detent
   - MIDIdrum timer and waitTime  to use hardware interrupts and timers 
