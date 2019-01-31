@@ -12,7 +12,9 @@
 
 #include <MIDI.h>
 
-MIDI_CREATE_INSTANCE(HardwareSerial, SERIALPORT, MIDI1);
+// Change "Serial1" to your MIDI port if different (i.e. Serial4)
+//
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI1);
 
 void setup() {
     Serial.begin(115200);            // start USB (Serial Monitor)  
